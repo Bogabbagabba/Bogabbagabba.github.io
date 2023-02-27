@@ -103,24 +103,9 @@
 												<div class="box post">
 													<a href="#" class="image left"><img src="images/pic02.jpg" alt="" /></a>
 													<div class="inner">
-														<h3>Napalm</h3>
-														<pre><code class="language-python">
-
-															from napalm import get_network_driver
-															import json
-															import csv
-															
-															
-															driver = get_network_driver('ios')
-															iosvl2 = driver('10.16.152.15', 'cisco', 'cisco')
-															iosvl2.open()
-															
-															
-															ios_output = iosvl2.get_interfaces_ip()
-															# print(json.dumps(ios_output, indent = 4))
-
-														</code></pre>
-															
+														<h3>SNTP</h3>
+														<p>Duis neque nisi, dapibus sed mattis et quis, nibh. Sed et dapibus nisl amet mattis,
+															sed a rutrum accumsan sed. Suspendisse eu. </p>
 													</div>
 												</div>
 											</section>
@@ -137,20 +122,16 @@
 
 									<div class="code-inline">
 										<pre><code class="language-python">
-																
 											from napalm import get_network_driver
 											import json
 											import csv
-											
 											
 											driver = get_network_driver('ios')
 											iosvl2 = driver('10.16.152.15', 'cisco', 'cisco')
 											iosvl2.open()
 											
-											
 											ios_output = iosvl2.get_interfaces_ip()
 											# print(json.dumps(ios_output, indent = 4))
-
 										</code></pre>
 									</div>
 									<div class="container">
