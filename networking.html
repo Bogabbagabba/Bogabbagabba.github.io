@@ -105,6 +105,7 @@
 													<div class="inner">
 														<h3>Napalm</h3>
 														<pre><code class="language-python">
+
 															from napalm import get_network_driver
 															import json
 															import csv
@@ -117,6 +118,7 @@
 															
 															ios_output = iosvl2.get_interfaces_ip()
 															# print(json.dumps(ios_output, indent = 4))
+
 														</code></pre>
 															
 													</div>
@@ -133,6 +135,24 @@
 									fringilla vel malesuada ac, dignissim eu mi. Mauris et lorem quam. Maecenas rutrum imperdiet
 									vulputate.</p>
 
+									<div class="code-inline">
+										<pre><code class="language-python">
+																
+											from napalm import get_network_driver
+											import json
+											import csv
+											
+											
+											driver = get_network_driver('ios')
+											iosvl2 = driver('10.16.152.15', 'cisco', 'cisco')
+											iosvl2.open()
+											
+											
+											ios_output = iosvl2.get_interfaces_ip()
+											# print(json.dumps(ios_output, indent = 4))
+
+										</code></pre>
+									</div>
 									<div class="container">
 										<div class="row">
 											<section class="col-6 col-12-narrower">
