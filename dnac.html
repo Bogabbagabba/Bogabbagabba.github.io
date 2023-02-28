@@ -79,6 +79,36 @@
 							tincidunt.
 							Mauris dolor urna,
 							fringilla vel malesuada ac, dignissim eu mi.</p>
+						<div class="code-inline">
+							<pre><code class="language-python">
+	import requests,json
+	import os
+	from dotenv import load_dotenv
+	
+	#Disable SSL warnings
+	import urllib3
+	urllib3.disable_warnings()
+	
+	load_dotenv()
+	
+	base_url = "https://prod-apl-dnac/dna"
+	auth_endpoint = "/system/api/v1/auth/token"
+	
+	username = os.environ.get('DNAuser')
+	password = os.environ.get('DNApass')
+	
+	auth_headers = {
+		"content-type": "application/json",
+		"Accept":"application/json"
+	}
+	
+	auth_response = requests.post(url=f"{base_url}{auth_endpoint}",auth=(username,password),headers=auth_headers, verify=False).json()
+	
+	token = auth_response['Token']
+
+							</code></pre>
+							<br>
+						</div>
 
 						<h3>Get Device Vlan</h3>
 						<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis, enim
@@ -128,6 +158,28 @@
 							</code></pre>
 							<br>
 						</div>
+
+						<h3>Create Site Hierachy</h3>
+						<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis, enim
+							quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus nec
+							arcu.
+							Mauris et lorem quam. Maecenas rutrum imperdiet
+							vulputate. Suspendisse laoreet metus ut metus imperdiet interdum aliquam justo
+							tincidunt.
+							Mauris dolor urna,
+							fringilla vel malesuada ac, dignissim eu mi.</p>
+
+
+						<h3>Create IP Pools</h3>
+						<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis, enim
+							quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus nec
+							arcu.
+							Mauris et lorem quam. Maecenas rutrum imperdiet
+							vulputate. Suspendisse laoreet metus ut metus imperdiet interdum aliquam justo
+							tincidunt.
+							Mauris dolor urna,
+							fringilla vel malesuada ac, dignissim eu mi.</p>
+
 					</article>
 
 				</div>

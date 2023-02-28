@@ -7,8 +7,6 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
-	<link rel="stylesheet" href="assets/css/prism.css" />
-
 </head>
 
 <body class="is-preload">
@@ -84,7 +82,7 @@
 
 						<div class="container">
 							<div class="row">
-								<section class="col-6 col-12-narrower">
+								<section class="col-4 col-12-narrower">
 									<div class="box post">
 										<a href="#" class="image left"><img src="images/cisco-logo-transparent.png"
 												alt="" /></a>
@@ -96,7 +94,7 @@
 										</div>
 									</div>
 								</section>
-								<section class="col-6 col-12-narrower">
+								<section class="col-4 col-12-narrower">
 									<div class="box post">
 										<a href="#" class="image left"><img src="images/cisco-logo-transparent.png"
 												alt="" /></a>
@@ -108,7 +106,7 @@
 										</div>
 									</div>
 								</section>
-								<section class="col-6 col-12-narrower">
+								<section class="col-4 col-12-narrower">
 									<div class="box post">
 										<a href="#" class="image left"><img src="images/cisco-logo-transparent.png"
 												alt="" /></a>
@@ -132,21 +130,7 @@
 							fringilla vel malesuada ac, dignissim eu mi. Mauris et lorem quam. Maecenas rutrum imperdiet
 							vulputate.</p>
 
-						<div class="code-inline">
-							<pre><code class="language-python">
-											from napalm import get_network_driver
-											import json
-											import csv
-											
-											driver = get_network_driver('ios')
-											iosvl2 = driver('10.16.152.15', 'cisco', 'cisco')
-											iosvl2.open()
-											
-											ios_output = iosvl2.get_interfaces_ip()
-											# print(json.dumps(ios_output, indent = 4))
-										</code></pre>
-							<br>
-						</div>
+
 						<div class="container">
 							<div class="row">
 								<section class="col-6 col-12-narrower">
@@ -346,7 +330,6 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
-	<script src="assets/js/prism.js"></script>
 </body>
 
 </html>
