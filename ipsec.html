@@ -60,54 +60,54 @@
 
 					<article>
 						<header>
-							<h2>NAT/PAT Translations</h2>
+							<h2>IPSEC</h2>
 							<p>All content, all the time.</p>
 						</header>
 
-						<h3>Types of NAT</h3>
+						<h3>IP SEC Site to Site</h3>
 						<p><strong>Static address translation static (static NAT) </strong>- Allows one-to-one mapping
 							between
-							local and global address <br>
+							local and global address
+						</p>
+						<img class="image-center" src="./images/networking/ipsec_layout.png" alt="" />
 
-							<strong>Dynamic address translation (dynamic NAT)</strong> - Maps unregistered IP addresses
-							to registered
-							IP
-							addresses from a pool of reistered IP addresses <br>
+						<h3>Steps to Create a IPSEC Tunnel</h3>
+						<p>CONFIGURE ISAKMP (IKE) - (ISAKMP PHASE 1) <br>
+							CONFIGURE IPSEC - 4 SIMPLE STEPS <br>
+							STEP 1: CREATING EXTENDED ACL <br>
+							STEP 2: CREATE IPSEC TRANSFORM (ISAKMP PHASE 2 POLICY) <br>
+							STEP 3: CREATE CRYPTO MAP <br>
+							STEP 4: APPLY CRYPTO MAP TO THE PUBLIC INTERFACE.</p>
 
-							<strong>Overloading (PAT)</strong> - Maps multiple unregistered IP addresses to a single
-							reistered
-							IP address
-							(many
-							to one) by using different ports. This method is also known as Port Address Translation
-							(PAT). Thousand of users can be connected to the Internet by using only one real global
-							IP
-							address through overloading.
-						<p>
-						<h3>Static NAT</h3>
-						<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis,
-							enim
-							quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus
-							nec
-							arcu.
-							Mauris et lorem quam. Maecenas rutrum imperdiet
-							vulputate. Suspendisse laoreet metus ut metus imperdiet interdum aliquam justo
-							tincidunt.
-							Mauris dolor urna,
-							fringilla vel malesuada ac, dignissim eu mi.</p>
+						<h3>Configuration at Site A</h3>
 						<div class="code-inline">
 							<pre><code class="language-markup">
-		R1(config)# int g0/0
-		R1(config-if)# ip nat outside
-	
-		R1(config)# int g0/1
-		R1(config-if)# ip nat inside 
-	
-		R1(config)# ip nat inside static 192.168.10 10.1.1.1
+		R-A(config)# crypto isakmp policy 1
+		R-A(config-isakmp)# encr aes
+		R-A(config-isakmp)# hash sha256
+		R-A(config-isakmp)# authentication pre-share
+		R-A(config-isakmp)# group 2
+
+		R-A(config)# crypto isakmp key ipsec address 40.0.0.2 
+
+		R-A(config)# crypto ipsec transform-set TS esp-aes esp-sha256-hmac
+
+		R-A(config)# ip access-list extended VPN-TRAFFIC
+		R-A(config-ext-nacl)# permit ip 10.1.1.0 0.0.0.255 10.2.2.0 0.0.0.255
+
+		R-A(config)# crypto map CMAP 10 ipsec-isakmp 
+ 		R-A(config-crypto-map)# set peer 40.0.0.2
+ 		R-A(config-crypto-map)# set transform-set TS 
+		R-A(config-crypto-map)# match address VPN-TRAFFIC
+
+		R-A(config)# interface GigabitEthernet0/0
+		R-A(config-if)# crypto map CMAP
+
 								</code></pre>
 							<br>
 						</div>
 
-						<h3>Dynamic NAT</h3>
+						<h3>Configuration at Site B</h3>
 						<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis,
 							enim
 							quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus
@@ -120,22 +120,31 @@
 							fringilla vel malesuada ac, dignissim eu mi.</p>
 						<div class="code-inline">
 							<pre><code class="language-markup">
-	R1(config)# int g0/0
-	R1(config-if)# ip nat outside
+		R-B(config)# crypto isakmp policy 1
+		R-B(config-isakmp)# encr aes
+		R-B(config-isakmp)# hash sha256
+		R-B(config-isakmp)# authentication pre-share
+		R-B(config-isakmp)# group 2
 
-	R1(config)# int g0/1
-	R1(config-if)# ip nat inside 
+		R-B(config)# crypto isakmp key ipsec address 30.0.0.2 
 
-	R1(config)# ip nat pool net-pool 172.16.0.1 172.16.0.14 prefix-length 28 
+		R-B(config)# crypto ipsec transform-set TS esp-aes esp-sha256-hmac
 
-	R1(config)# access-list 1 permit 192.168.1.0 0.0.0.255
+		R-B(config)# ip access-list extended VPN-TRAFFIC
+		R-B(config-ext-nacl)# permit ip 10.2.2.0 0.0.0.255 10.1.1.0 0.0.0.255
 
-	R1(config)# ip nat inside source list 1 pool net-pool
+		R-B(config)# crypto map CMAP 10 ipsec-isakmp 
+		R-B(config-crypto-map)# set peer 30.0.0.2
+		R-B(config-crypto-map)# set transform-set TS 
+		R-B(config-crypto-map)# match address VPN-TRAFFIC
+
+		R-B(config)# interface GigabitEthernet0/0
+		R-B(config-if)# crypto map CMAP
 							</code></pre>
 							<br>
 						</div>
 
-						<h3>Port Address Translation (PAT)</h3>
+						<h3>Confirm Tunnel is working</h3>
 						<p>Phasellus odio risus, faucibus et viverra vitae, eleifend ac purus. Praesent mattis,
 							enim
 							quis hendrerit porttitor, sapien tortor viverra magna, sit amet rhoncus nisl lacus
@@ -148,15 +157,16 @@
 							fringilla vel malesuada ac, dignissim eu mi.</p>
 						<div class="code-inline">
 							<pre><code class="language-markup">
-	R1(config)# int g0/0
-	R1(config-if)# ip nat outside
-
-	R1(config)# int g0/1
-	R1(config-if)# ip nat inside 
-
-	R1(config)# access-list 100 permit ip 192.168.1.0 0.0.0.255 any
-
-	R1(config)# ip nat inside source list 100 interface GigabitEthernet0/0 overload
+		R-A#show crypto session        
+		Crypto session current status
+		
+		Interface: GigabitEthernet0/0
+		Session status: UP-ACTIVE     
+		Peer: 40.0.0.2 port 500 
+			Session ID: 0  
+			IKEv1 SA: local 30.0.0.2/500 remote 40.0.0.2/500 Active 
+			IPSEC FLOW: permit ip 10.1.1.0/255.255.255.0 10.2.2.0/255.255.255.0 
+				Active SAs: 2, origin: crypto map
 							</code></pre>
 							<br>
 						</div>
